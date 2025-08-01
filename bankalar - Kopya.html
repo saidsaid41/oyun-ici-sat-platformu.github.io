@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ödeme | SHINXGAME</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6C63FF;
+            --secondary-color: #FFD700;
+            --background-dark: #0A0A0A;
+            --background-light: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+            --success-color: #4CAF50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-dark);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Styles */
+        .header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--background-light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .header-search {
+            flex: 0 1 400px;
+            margin: 0 2rem;
+        }
+
+        .header-search input {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .header-search input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .header-icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .header-icon-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .header-gray-btn, .header-yellow-btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .header-gray-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .header-yellow-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .header-gray-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .header-yellow-btn:hover {
+            background-color: #5A52D5;
+            transform: translateY(-2px);
+        }
+
+        /* Navigation Styles */
+        .nav-main {
+            background-color: var(--background-light);
+            padding: 0.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            position: relative;
+            cursor: pointer;
+            padding: 0.8rem 0;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-games:hover .nav-dropdown {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .nav-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--background-light);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            width: 220px;
+            padding: 0.5rem;
+            z-index: 100;
+        }
+
+        .nav-dropdown li {
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-dropdown li:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--primary-color);
+        }
+
+        .nav-link {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        /* Payment Page Styles */
+        .payment-content {
+            padding: 20px;
+        }
+
+        .payment-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .payment-section {
+            background-color: var(--background-light);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .payment-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .payment-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary-color);
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .payment-method:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-method.active {
+            border-color: var(--primary-color);
+            background-color: rgba(108, 99, 255, 0.1);
+        }
+
+        .payment-method i {
+            font-size: 1.8rem;
+            margin-right: 1rem;
+            width: 40px;
+            text-align: center;
+        }
+
+        .method-info {
+            flex: 1;
+        }
+
+        .method-name {
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .method-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .payment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .payment-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .payment-form-group label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .payment-form-control {
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .payment-form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .payment-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .payment-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .payment-btn:hover {
+            background-color: #5A52D5;
+        }
+
+        .payment-secure {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .payment-summary {
+            background-color: var(--background-light);
+            border-radius: 12px;
+            padding: 2rem;
+            height: fit-content;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+        }
+
+        /* Responsive Tasarım */
+        @media (max-width: 992px) {
+            .header-main {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .header-logo {
+                margin-bottom: 1rem;
+            }
+            
+            .header-search {
+                width: 100%;
+                margin: 1rem 0;
+                flex: 1;
+            }
+            
+            .nav-list {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            
+            .payment-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-buttons {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .header-search input {
+                padding: 0.7rem 1rem;
+            }
+            
+            .header-gray-btn, .header-yellow-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header-main">
+        <div class="header-logo">
+            <a href="index1.html" style="text-decoration: none; color: inherit;">
+                <span>sʜɪɴx</span>ɢᴀᴍᴇ
+            </a>
+        </div>
+        <div class="header-search">
+            <input type="text" placeholder="Aramak için yazın">
+        </div>
+        <div class="header-buttons">
+            <button class="header-icon-btn">🛒</button>
+            <button class="header-yellow-btn">
+                <a href="kayıtol.html" style="text-decoration: none; color: inherit;">Giriş Yap</a>
+            </button>
+            <button class="header-yellow-btn">
+                <a href="kayıtol.html" style="text-decoration: none; color: inherit;">Kayıt ol</a>
+            </button>
+        </div>
+    </header>
+    <nav class="nav-main">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="index1.html" onclick="loadPage('home')" class="nav-link">Keşfet</a></li>
+            <li class="nav-item nav-games">Oyunlar
+                <ul class="nav-dropdown">
+                    <li><a href="Tüm oyunlar.html" onclick="loadPage('tum-oyunlar')" class="nav-link">Tüm Oyunlar</a></li>
+                    <li><a href="LOL.html" onclick="loadPage('lol')" class="nav-link">LoL Riot Points</a></li>
+                    <li><a href="Valorant.html" onclick="loadPage('valorant')" class="nav-link">Valorant VP</a></li>
+                    <li><a href="Zula.html" onclick="loadPage('zula')" class="nav-link">Zula Altın</a></li>
+                    <li><a href="Metin2.html" onclick="loadPage('metin2')" class="nav-link">Metin2 Yang</a></li>
+                    <li><a href="Pubg.html" onclick="loadPage('pubg')" class="nav-link">PUBG Mobile UC</a></li>
+                    <li><a href="CS2.html" onclick="loadPage('cs2')" class="nav-link">CS 2 Skin</a></li>
+                </ul>
+            </li>
+            <li class="nav-item"><a href="yayıncılar.html" onclick="loadPage('yayin')" class="nav-link">Yayıncılar</a></li>
+            <li class="nav-item"><a href="bankalar.html" onclick="loadPage('odeme')" class="nav-link">Ödeme Seçenekleri</a></li>
+            <li class="nav-item"><a href="pazar.html" onclick="loadPage('pazar')" class="nav-link">Pazar</a></li>
+            <li class="nav-item"><a href="ilanekle.html" onclick="loadPage('ilan ekle')" class="nav-link">İlan Ekle</a></li>
+        </ul>
+    </nav>
+
+    <div class="payment-content">
+        <div class="payment-container">
+            <div class="payment-section">
+                <h2 class="payment-title">Ödeme Yöntemi</h2>
+                <div class="payment-methods">
+                    <div class="payment-method active">
+                        <i class="fab fa-cc-visa"></i>
+                        <div class="method-info">
+                            <div class="method-name">Kredi/Banka Kartı</div>
+                            <div class="method-desc">Visa, Mastercard, Maestro</div>
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <i class="fab fa-paypal"></i>
+                        <div class="method-info">
+                            <div class="method-name">PayPal</div>
+                            <div class="method-desc">Hızlı ve güvenli ödeme</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="payment-title">Kart Bilgileri</h2>
+                <form class="payment-form">
+                    <div class="payment-form-group">
+                        <label for="card-number">Kart Numarası</label>
+                        <input type="text" id="card-number" class="payment-form-control" placeholder="1234 5678 9012 3456">
+                    </div>
+                    <div class="payment-form-group">
+                        <label for="card-name">Kart Üzerindeki İsim</label>
+                        <input type="text" id="card-name" class="payment-form-control" placeholder="Ad Soyad">
+                    </div>
+                    <div class="payment-form-row">
+                        <div class="payment-form-group">
+                            <label for="card-expiry">Son Kullanma Tarihi</label>
+                            <input type="text" id="card-expiry" class="payment-form-control" placeholder="AA/YY">
+                        </div>
+                        <div class="payment-form-group">
+                            <label for="card-cvv">CVV</label>
+                            <input type="text" id="card-cvv" class="payment-form-control" placeholder="123">
+                        </div>
+                    </div>
+                    <button type="button" class="payment-btn">
+                        <i class="fas fa-lock"></i> ÖDEMEYİ TAMAMLA
+                    </button>
+                    <div class="payment-secure">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>256-bit SSL şifreleme ile güvendesiniz</span>
+                    </div>
+                </form>
+            </div>
+
+            <div class="payment-summary">
+                <h2 class="payment-title">Sipariş Özeti</h2>
+                <div id="orderSummary"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dropdown menü için basit JavaScript
+        document.querySelectorAll('.nav-games').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.querySelector('.nav-dropdown').style.display = 'block';
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.querySelector('.nav-dropdown').style.display = 'none';
+            });
+        });
+
+        // Mobil dokunmatik destek
+        document.querySelectorAll('.nav-games').forEach(item => {
+            item.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const dropdown = item.querySelector('.nav-dropdown');
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+
+        // Sayfa yükleme fonksiyonu (alert kaldırıldı)
+        function loadPage(page) {
+            // Burada herhangi bir işlem yapılmıyor, alert kaldırıldı.
+        }
+
+        // Ödeme yöntemi seçimi
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', () => {
+                document.querySelectorAll('.payment-method').forEach(m => {
+                    m.classList.remove('active');
+                });
+                method.classList.add('active');
+            });
+        });
+
+        // Kart numarası formatlama
+        document.getElementById('card-number').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s+/g, '');
+            if (value.length > 0) {
+                value = value.match(/.{1,4}/g).join(' ');
+            }
+            e.target.value = value;
+        });
+
+        // Son kullanma tarihi formatlama
+        document.getElementById('card-expiry').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+        });
+
+        // Ödeme butonu işlevi
+        document.querySelector('.payment-btn').addEventListener('click', function() {
+            const cardNumber = document.getElementById('card-number').value;
+            const cardName = document.getElementById('card-name').value;
+            const cardExpiry = document.getElementById('card-expiry').value;
+            const cardCvv = document.getElementById('card-cvv').value;
+
+            if (!cardNumber || !cardName || !cardExpiry || !cardCvv) {
+                alert('Lütfen tüm alanları doldurun!');
+                return;
+            }
+
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> İşleniyor...';
+
+            // Ödeme işlemini simüle et
+            setTimeout(() => {
+                const isPaymentSuccessful = Math.random() > 0.2; // %80 başarı oranı simülasyonu
+
+                if (isPaymentSuccessful) {
+                    alert('Ödeme başarıyla tamamlandı!');
+                    this.innerHTML = '<i class="fas fa-check"></i> ÖDEME TAMAMLANDI';
+
+                    // Sepeti sıfırla
+                    localStorage.removeItem("siparisOzeti");
+                    window.location.href = "index.html"; // Ana sayfaya yönlendir
+                } else {
+                    alert('Ödeme başarısız oldu. Lütfen tekrar deneyin.');
+                    this.innerHTML = '<i class="fas fa-lock"></i> ÖDEMEYİ TAMAMLA';
+                }
+            }, 2000);
+        });
+
+        // Sipariş özetini `localStorage`'dan al
+        const siparisOzeti = JSON.parse(localStorage.getItem('siparisOzeti'));
+
+        if (siparisOzeti) {
+            const orderSummaryDiv = document.getElementById('orderSummary');
+            const urunler = siparisOzeti.urunler;
+            const toplamTutar = siparisOzeti.toplamTutar;
+
+            // Sipariş özetini oluştur
+            let summaryHTML = '<ul style="list-style: none; padding: 0;">';
+            urunler.forEach(urun => {
+                summaryHTML += `
+                    <li style="display: flex; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 0.5rem;">
+                        <span>${urun.name} x${urun.qty}</span>
+                        <span>${(urun.price * urun.qty).toFixed(2)} TL</span>
+                    </li>
+                `;
+            });
+            summaryHTML += `
+                <li style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2rem; color: var(--secondary-color);">
+                    <span>Toplam</span>
+                    <span>${toplamTutar.toFixed(2)} TL</span>
+                </li>
+            </ul>`;
+            orderSummaryDiv.innerHTML = summaryHTML;
+        }
+    </script>
+</body>
+</html>

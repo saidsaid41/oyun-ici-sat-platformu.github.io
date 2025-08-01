@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Özel Teklifler | SHINXGAME</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6C63FF;
+            --primary-hover: #5A52D5;
+            --secondary-color: #FFD700;
+            --background-dark: #0A0A0A;
+            --background-darker: #050505;
+            --background-light: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+            --success-color: #4CAF50;
+            --warning-color: #FFA726;
+            --danger-color: #F44336;
+            --info-color: #2196F3;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--background-darker); color: var(--text-primary); line-height: 1.6; }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--background-light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        .search-bar { flex: 0 1 400px; margin: 0 2rem; }
+        .search-bar input {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .search-bar input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+        .buttons { display: flex; gap: 1rem; align-items: center; }
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .icon-btn:hover { background-color: rgba(255, 255, 255, 0.1); }
+        .cart-count {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--danger-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translate(40%, -40%);
+        }
+        .cart-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 50px;
+            background: var(--background-light);
+            color: var(--text-primary);
+            min-width: 320px;
+            max-width: 90vw;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            z-index: 2000;
+            padding: 1rem;
+        }
+        .cart-dropdown.active { display: block; animation: fadeIn 0.2s; }
+        .cart-dropdown h4 { margin-bottom: 1rem; }
+        .cart-items-list { list-style: none; padding: 0; margin: 0 0 1rem 0; max-height: 250px; overflow-y: auto; }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.7rem;
+            gap: 0.5rem;
+        }
+        .cart-item-title { font-size: 0.95rem; }
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: var(--danger-color);
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+        .cart-empty { color: var(--text-secondary); text-align: center; margin: 1rem 0; }
+        .cart-dropdown-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .yellow-btn, .gray-btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .yellow-btn { background-color: var(--primary-color); color: white; }
+        .yellow-btn:hover { background-color: #5A52D5; transform: translateY(-2px); }
+        nav {
+            background-color: var(--background-light);
+            padding: 0.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        nav ul li {
+            position: relative;
+            cursor: pointer;
+            padding: 0.8rem 0;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+        nav ul li:hover { color: var(--text-primary); }
+        .nav-oyunlar:hover .dropdown {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--background-light);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            width: 220px;
+            padding: 0.5rem;
+            z-index: 100;
+        }
+        .dropdown li {
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        .dropdown li:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--primary-color);
+        }
+        nav ul li a {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        /* Responsive */
+        @media (max-width: 992px) {
+            header { flex-direction: column; padding: 1rem; }
+            .logo { margin-bottom: 1rem; }
+            .search-bar { width: 100%; margin: 1rem 0; flex: 1; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+        }
+        @media (max-width: 576px) {
+            .buttons { width: 100%; justify-content: space-between; }
+            .search-bar input { padding: 0.7rem 1rem; }
+            .gray-btn, .yellow-btn { padding: 0.6rem 1rem; font-size: 0.8rem; }
+            .cart-dropdown { min-width: 220px; }
+        }
+        /* --- Diğer stiller (main, offer, footer) burada devam ediyor --- */
+        body { background-color: var(--background-darker); color: var(--text-primary); line-height: 1.6; }
+        /* Header Styles */
+        .site-header {
+            background-color: var(--background-dark);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .cart-btn {
+            position: relative;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Navigation */
+        .site-nav {
+            background-color: var(--background-light);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.8rem 2rem;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Offer Section */
+        .offer-container {
+            background-color: var(--background-light);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            margin-bottom: 2rem;
+        }
+
+        .offer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .offer-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .offer-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .timer {
+            background-color: var(--danger-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .offer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .offer-item {
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .offer-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border-color: var(--primary-color);
+        }
+
+        .offer-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .offer-badge.danger {
+            background-color: var(--danger-color);
+        }
+
+        .offer-badge.success {
+            background-color: var(--success-color);
+        }
+
+        .offer-badge.warning {
+            background-color: var(--warning-color);
+            color: #000;
+        }
+
+        .offer-image {
+            width: 100%;
+            height: 160px;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .offer-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .offer-item:hover .offer-image img {
+            transform: scale(1.05);
+        }
+
+        .offer-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .offer-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            min-height: 40px;
+        }
+
+        .offer-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .current-price {
+            color: var(--secondary-color);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .discount-percent {
+            background-color: var(--danger-color);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .offer-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .offer-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .rating {
+            color: var(--secondary-color);
+        }
+
+        .stock {
+            color: var(--success-color);
+        }
+
+        .stock.danger {
+            color: var(--danger-color);
+        }
+
+        /* Featured Section */
+        .featured-section {
+            margin-top: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary-color);
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .featured-item {
+            background-color: var(--background-light);
+            border-radius: 10px;
+            padding: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .featured-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .featured-name {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .featured-price {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .site-footer {
+            background-color: var(--background-dark);
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-col h3 {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--primary-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--text-primary);
+            background-color: rgba(255,255,255,0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            header { flex-direction: column; padding: 1rem; }
+            .logo { margin-bottom: 1rem; }
+            .search-bar { width: 100%; margin: 1rem 0; flex: 1; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+        }
+        @media (max-width: 576px) {
+            .buttons { width: 100%; justify-content: space-between; }
+            .search-bar input { padding: 0.7rem 1rem; }
+            .gray-btn, .yellow-btn { padding: 0.6rem 1rem; font-size: 0.8rem; }
+            .cart-dropdown { min-width: 220px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index1.html" style="text-decoration: none; color: inherit;">
+                <span>sʜɪɴx</span>ɢᴀᴍᴇ
+            </a>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Aramak için yazın">
+        </div>
+        <div class="buttons" style="position:relative;">
+            <button class="icon-btn cart-btn" id="cartBtn">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+            <div class="cart-dropdown" id="cartDropdown">
+                <h4>Sepetim</h4>
+                <ul class="cart-items-list" id="cartItems"></ul>
+                <div class="cart-empty" id="cartEmpty">Sepetiniz boş.</div>
+                <div class="cart-dropdown-footer">
+                    <span>Toplam:</span>
+                    <span id="cartTotal">₺0.00</span>
+                </div>
+                <div class="cart-pay">
+                    <button class="yellow-btn" id="payButton">Öde</button>
+                </div>
+            </div>
+            <button class="yellow-btn">
+                <a href="kayıtol.html" style="text-decoration: none; color: inherit;">Giriş Yap</a>
+            </button>
+            <button class="yellow-btn">
+                <a href="kayıtol.html" style="text-decoration: none; color: inherit;">Kayıt ol</a>
+            </button>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index1.html" onclick="loadPage('home')">Keşfet</a></li>
+            <li class="nav-oyunlar">Oyunlar
+                <ul class="dropdown">
+                    <li><a href="Tüm oyunlar.html" onclick="loadPage('tum-oyunlar')">Tüm Oyunlar</a></li>
+                    <li><a href="LOL.html" onclick="loadPage('lol')">LoL Riot Points</a></li>
+                    <li><a href="Valorant.html" onclick="loadPage('valorant')">Valorant VP</a></li>
+                    <li><a href="Zula.html" onclick="loadPage('zula')">Zula Altın</a></li>
+                    <li><a href="Metin2.html" onclick="loadPage('metin2')">Metin2 Yang</a></li>
+                    <li><a href="PUBG.html" onclick="loadPage('pubg')">PUBG Mobile UC</a></li>
+                    <li><a href="CS2.html   " onclick="loadPage('cs2')">CS 2 Skin</a></li>
+                </ul>
+            </li>
+            <li><a href="yayıncılar.html" onclick="loadPage('yayin')">Yayıncılar</a></li>
+            <li><a href="bankalar.html" onclick="loadPage('odeme')">Ödeme Seçenekleri</a></li>
+            <li><a href="pazar.html" onclick="loadPage('pazar')">Pazar</a></li>
+            <li><a href="ilanekle.html" onclick="loadPage('ilan ekle')">İlan Ekle</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Flash Sale Section -->
+        <section class="offer-container">
+            <div class="offer-header">
+                <div>
+                    <h1 class="offer-title">FLASH SALE</h1>
+                    <p class="offer-subtitle">Süresi yakında doluyor! Hemen al, fırsatı kaçırma!</p>
+                </div>
+                <div class="timer">
+                    <i class="fas fa-clock"></i>
+                    <span id="countdown">05:23:47</span>
+                </div>
+            </div>
+
+            <div class="offer-grid">
+                <!-- Item 1 -->
+                <div class="offer-item">
+         
+                    <div class="offer-image">
+                        <img src="skinler/skin1.jpg" alt="Valorant 2400 VP">
+                    </div>
+                    <h3 class="offer-name">AK-47 | Leet Museo</h3>
+                    <p class="offer-desc">AK-47 | Leet Museo(Factory NEW)</p>
+                    <div class="offer-price">
+                        <div>
+                            <span class="original-price">₺149.90</span>
+                            <span class="current-price">₺104.90</span>
+                        </div>
+                        <span class="discount-percent">30%</span>
+                    </div>
+                    <div class="offer-actions">
+                        <button class="btn btn-secondary"><i class="far fa-heart"></i></button>
+                        <button class="btn btn-primary"><i class="fas fa-cart-plus"></i> Sepete Ekle</button>
+                    </div>
+                    <div class="offer-meta">
+                        <span class="rating"><i class="fas fa-star"></i> 4.8 (124)</span>
+                        <span class="stock">Stok: 15</span>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="offer-item">
+                 
+                    <div class="offer-image">
+                       <img src="skinler/skin2.jpg" alt="Valorant 2400 VP">
+                    </div>
+                    <h3 class="offer-name">AK-47 | Asiimov</h3>
+                    <p class="offer-desc">AK-47 | Asiimov(Factory NEW)</p>
+                    <div class="offer-price">
+                        <div>
+                            <span class="original-price">₺9.90</span>
+                            <span class="current-price">ÜCRETSİZ</span> 
+                        </div>
+                    </div>
+                    <div class="offer-actions">
+                        <button class="btn btn-secondary"><i class="far fa-heart"></i></button>
+                        <button class="btn btn-primary"><i class="fas fa-gift"></i> Hemen Al</button>
+                    </div>
+                    <div class="offer-meta">
+                        <span class="rating"><i class="fas fa-star"></i> 4.5 (89)</span>
+                        <span class="stock danger">Son 3!</span>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="offer-item">
+                 
+                    <div class="offer-image">
+                        <img src="skinler/skin3.jpg" alt="Valorant 2400 VP">
+                    </div>
+                    <h3 class="offer-name">AK-47 | Frontside Misty</h3>
+                    <p class="offer-desc">AK-47 | Frontside Misty Factory NEW</p>
+                    <div class="offer-price">
+                        <div>
+                            <span class="original-price">₺33.07</span>
+                            <span class="current-price">₺29.00</span>
+                        </div>
+                        <span class="discount-percent">12%</span>
+                    </div>
+                    <div class="offer-actions">
+                        <button class="btn btn-secondary"><i class="far fa-heart"></i></button>
+                        <button class="btn btn-primary"><i class="fas fa-cart-plus"></i> Sepete Ekle</button>
+                    </div>
+                    <div class="offer-meta">
+                        <span class="rating"><i class="fas fa-star"></i> 4.9 (256)</span>
+                        <span class="stock">Stok: 42</span>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="offer-item">
+                   
+                    <div class="offer-image">
+                        <img src="skinler/skin4.jpg" alt="Valorant 2400 VP">
+                    </div>
+                    <h3 class="offer-name">AK-47 | Case Hardened</h3>
+                    <p class="offer-desc">AK-47 | Case Hardened Factory NEW</p>
+                    <div class="offer-price">
+                        <div>
+                            <span class="original-price">₺1,249.90</span>
+                            <span class="current-price">₺999.90</span>
+                        </div>
+                        <span class="discount-percent">20%</span>
+                    </div>
+                    <div class="offer-actions">
+                        <button class="btn btn-secondary"><i class="far fa-heart"></i></button>
+                        <button class="btn btn-primary"><i class="fas fa-cart-plus"></i> Sepete Ekle</button>
+                    </div>
+                    <div class="offer-meta">
+                        <span class="rating"><i class="fas fa-star"></i> 5.0 (78)</span>
+                        <span class="stock danger">Son 1!</span>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="offer-item">
+                   
+                    <div class="offer-image">
+                       <img src="skinler/skin5.jpg" alt="Valorant 2400 VP">
+                    </div>
+                    <h3 class="offer-name">AK-47 | Nightwish</h3>
+                    <p class="offer-desc">AK-47 | Nightwish (Factory NEW)</p>
+                    <div class="offer-price">
+                        <div>
+                            <span class="original-price">₺14.90</span>
+                            <span class="current-price">₺9.90</span>
+                        </div>
+                        <span class="discount-percent">34%</span>
+                    </div>
+                    <div class="offer-actions">
+                        <button class="btn btn-secondary"><i class="far fa-heart"></i></button>
+                        <button class="btn btn-primary"><i class="fas fa-cart-plus"></i> Sepete Ekle</button>
+                    </div>
+                    <div class="offer-meta">
+                        <span class="rating"><i class="fas fa-star"></i> 4.2 (56)</span>
+                        <span class="stock">Stok: 27</span>
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="offer-item">
+                  
+                    <div class="offer-image">
+                       <img src="skinler/skin6.jpg" alt="Valorant 2400 VP">
+                    </div>
+                    <h3 class="offer-name">AK-47 | The Empress</h3>
+                    <p class="offer-desc">AK-47 | The Empress Factory NEW</p>
+                    <div class="offer-price">
+                        <div>
+                            <span class="original-price">₺94.77</span>
+                            <span class="current-price">₺52.90</span>
+                        </div>
+                        <span class="discount-percent">45%</span>
+                    </div>
+                    <div class="offer-actions">
+                        <button class="btn btn-secondary"><i class="far fa-heart"></i></button>
+                        <button class="btn btn-primary"><i class="fas fa-cart-plus"></i> Sepete Ekle</button>
+                    </div>
+                    <div class="offer-meta">
+                        <span class="rating"><i class="fas fa-star"></i> 4.7 (312)</span>
+                        <span class="stock">Stok: 18</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Games Section -->
+        <section class="featured-section">
+            <h2 class="section-title">Öne Çıkan Oyunlar</h2>
+            <div class="featured-grid">
+                <div class="featured-item">
+                    <div class="featured-image">
+                        <img src="https://via.placeholder.com/300x150/1A1A1A/FFFFFF?text=Valorant" alt="Valorant">
+                    </div>
+                    <h3 class="featured-name">Valorant</h3>
+                    <p class="featured-price">VP'den başlayan fiyatlarla</p>
+                </div>
+                <div class="featured-item">
+                    <div class="featured-image">
+                        <img src="https://via.placeholder.com/300x150/1A1A1A/FFFFFF?text=League+of+Legends" alt="LoL">
+                    </div>
+                    <h3 class="featured-name">League of Legends</h3>
+                    <p class="featured-price">RP'den başlayan fiyatlarla</p>
+                </div>
+                <div class="featured-item">
+                    <div class="featured-image">
+                        <img src="https://via.placeholder.com/300x150/1A1A1A/FFFFFF?text=CS2" alt="CS2">
+                    </div>
+                    <h3 class="featured-name">CS2</h3>
+                    <p class="featured-price">Skin'ler ve eşyalar</p>
+                </div>
+                <div class="featured-item">
+                    <div class="featured-image">
+                        <img src="https://via.placeholder.com/300x150/1A1A1A/FFFFFF?text=PubG+Mobile" alt="PubG Mobile">
+                    </div>
+                    <h3 class="featured-name">PUBG Mobile</h3>
+                    <p class="featured-price">UC paketleri</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Items Section -->
+    
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>SHINXGAME</h3>
+                <p>Oyun dünyasının en güvenilir alışveriş adresi. Yıllardır oyunculara kaliteli hizmet sunmaktayız.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Hızlı Linkler</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="games.html">Oyunlar</a></li>
+                    <li><a href="market.html">Pazar</a></li>
+                    <li><a href="streamers.html">Yayıncılar</a></li>
+                    <li><a href="about.html">Hakkımızda</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Yardım</h3>
+                <ul class="footer-links">
+                    <li><a href="faq.html">SSS</a></li>
+                    <li><a href="payment.html">Ödeme Yöntemleri</a></li>
+                    <li><a href="delivery.html">Teslimat Süreci</a></li>
+                    <li><a href="refund.html">İade Politikası</a></li>
+                    <li><a href="contact.html">İletişim</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>İletişim</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-envelope"></i> info@shinxgame.com</li>
+                    <li><i class="fas fa-phone"></i> +90 555 123 45 67</li>
+                    <li><i class="fas fa-map-marker-alt"></i> İstanbul, Türkiye</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 SHINXGAME. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Kategori menüsü
+        document.querySelectorAll('.nav-oyunlar').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.querySelector('.dropdown').style.display = 'block';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.querySelector('.dropdown').style.display = 'none';
+            });
+        });
+
+        document.querySelectorAll('.nav-oyunlar').forEach(item => {
+            item.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const dropdown = item.querySelector('.dropdown');
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+
+        // Sayfa yükleme fonksiyonu (alert kaldırıldı)
+        function loadPage(page) {
+            // Burada herhangi bir işlem yapılmıyor, alert kaldırıldı.
+        }
+
+        // Sepet fonksiyonları
+        const cartBtn = document.getElementById('cartBtn');
+        const cartDropdown = document.getElementById('cartDropdown');
+        const cartCount = document.getElementById('cartCount');
+        const cartItemsList = document.getElementById('cartItems');
+        const cartEmpty = document.getElementById('cartEmpty');
+        const cartTotal = document.getElementById('cartTotal');
+        let cart = [];
+
+        // Sepet aç/kapat
+        cartBtn.addEventListener('click', () => {
+            cartDropdown.classList.toggle('active');
+        });
+
+        // Sepet dışında tıklayınca kapat
+        document.addEventListener('click', function(e) {
+            if (!cartDropdown.contains(e.target) && !cartBtn.contains(e.target)) {
+                cartDropdown.classList.remove('active');
+            }
+        });
+
+        // Ürün ekleme (btn-primary)
+        document.querySelectorAll('.btn-primary').forEach(button => {
+            button.addEventListener('click', function() {
+                const offerItem = this.closest('.offer-item');
+                const name = offerItem.querySelector('.offer-name').textContent.trim();
+                const priceEl = offerItem.querySelector('.current-price');
+                let price = 0;
+                if (priceEl) {
+                    price = parseFloat(priceEl.textContent.replace(/[₺,]/g, '').replace(',', '.'));
+                } else {
+                    // Ücretsiz ürünler için
+                    price = 0;
+                }
+                // Sepette varsa miktarı artır
+                const existing = cart.find(item => item.name === name);
+                if (existing) {
+                    existing.qty += 1;
+                } else {
+                    cart.push({ name, price, qty: 1 });
+                }
+                updateCartUI();
+                // Sepeti aç
+                cartDropdown.classList.add('active');
+                // Sepet animasyonu
+                cartCount.textContent = getCartCount();
+                cartCount.style.transform = 'scale(1.5)';
+                setTimeout(() => { cartCount.style.transform = 'scale(1)'; }, 300);
+            });
+        });
+
+        // Sepet arayüzünü güncelle
+        function updateCartUI() {
+            cartItemsList.innerHTML = '';
+            if (cart.length === 0) {
+                cartEmpty.style.display = 'block';
+                cartTotal.textContent = '₺0.00';
+            } else {
+                cartEmpty.style.display = 'none';
+                let total = 0;
+                cart.forEach((item, idx) => {
+                    total += item.price * item.qty;
+                    const li = document.createElement('li');
+                    li.className = 'cart-item';
+                    li.innerHTML = `
+                        <span class="cart-item-title">${item.name} <span style="color:#aaa;font-size:0.9em;">x${item.qty}</span></span>
+                        <span>
+                            ${item.price === 0 ? 'ÜCRETSİZ' : `₺${(item.price * item.qty).toFixed(2)}`}
+                            <button class="cart-item-remove" data-idx="${idx}" title="Kaldır"><i class="fas fa-trash"></i></button>
+                        </span>
+                    `;
+                    cartItemsList.appendChild(li);
+                });
+                cartTotal.textContent = `₺${total.toFixed(2)}`;
+            }
+            cartCount.textContent = getCartCount();
+        }
+
+        // Sepetten ürün çıkarma
+        cartItemsList.addEventListener('click', function(e) {
+            if (e.target.closest('.cart-item-remove')) {
+                const idx = e.target.closest('.cart-item-remove').dataset.idx;
+                cart.splice(idx, 1);
+                updateCartUI();
+            }
+        });
+
+        // Sepetteki toplam ürün sayısı
+        function getCartCount() {
+            return cart.reduce((sum, item) => sum + item.qty, 0);
+        }
+
+        // Favori butonu etkileşimi
+        document.querySelectorAll('.btn-secondary').forEach(button => {
+            button.addEventListener('click', function() {
+                if (this.innerHTML.includes('far')) {
+                    this.innerHTML = '<i class="fas fa-heart" style="color: red;"></i>';
+                    alert('Ürün favorilere eklendi!');
+                } else {
+                    this.innerHTML = '<i class="far fa-heart"></i>';
+                    alert('Ürün favorilerden kaldırıldı!');
+                }
+            });
+        });
+
+        // Geri sayım zamanlayıcısı
+        function updateCountdown() {
+            const now = new Date();
+            const endOfDay = new Date();
+            endOfDay.setHours(23, 59, 59, 999);
+            const diff = endOfDay - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById('countdown').textContent =
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        function ilanlariYukle() {
+            const ilanlar = JSON.parse(localStorage.getItem("ilanlar")) || [];
+            const ilanlarContainer = document.querySelector(".featured-grid");
+
+            ilanlarContainer.innerHTML = ""; // Mevcut içeriği temizle
+
+            ilanlar.forEach(ilan => {
+                const ilanCard = document.createElement("div");
+                ilanCard.className = "featured-item";
+                ilanCard.innerHTML = `
+                    <div class="featured-image">
+                        <img src="${ilan.fotoUrl || 'https://via.placeholder.com/300x150/1A1A1A/FFFFFF?text=No+Image'}" alt="${ilan.kategori}">
+                    </div>
+                    <h3 class="featured-name">${ilan.baslik}</h3>
+                    <p class="featured-price">₺${ilan.fiyat}</p>
+                    <p>${ilan.aciklama}</p>
+                    <button class="yellow-btn" onclick="ilanDuzenle(${ilan.id})">Düzenle</button>
+                    <button class="gray-btn" onclick="ilanSil(${ilan.id})">Sil</button>
+                `;
+                ilanlarContainer.appendChild(ilanCard);
+            });
+        }
+
+        function ilanDuzenle(id) {
+            const ilanlar = JSON.parse(localStorage.getItem("ilanlar")) || [];
+            const ilan = ilanlar.find(i => i.id === id);
+
+            if (ilan) {
+                // İlan bilgilerini düzenleme sayfasına aktar
+                localStorage.setItem("duzenlenecekIlan", JSON.stringify(ilan));
+                window.location.href = "ilanekle.html";
+            }
+        }
+
+        function ilanSil(id) {
+            let ilanlar = JSON.parse(localStorage.getItem("ilanlar")) || [];
+            ilanlar = ilanlar.filter(i => i.id !== id);
+
+            // Güncellenmiş ilanları kaydet
+            localStorage.setItem("ilanlar", JSON.stringify(ilanlar));
+
+            // Sayfayı yeniden yükle
+            ilanlariYukle();
+        }
+
+        // Sayfa yüklendiğinde ilanları yükle
+        document.addEventListener("DOMContentLoaded", ilanlariYukle);
+    </script>
+    <script>
+        document.getElementById("payButton").addEventListener("click", function () {
+            if (cart.length === 0) {
+                alert("Sepetiniz boş. Lütfen ürün ekleyin.");
+            } else {
+                const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+                // Satın alınan ürünleri ve toplam tutarı `localStorage`'a kaydet
+                localStorage.setItem("siparisOzeti", JSON.stringify({
+                    urunler: cart,
+                    toplamTutar: total
+                }));
+
+                // Kullanıcıyı bankalar.html sayfasına yönlendir
+                window.location.href = "bankalar.html";
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shinxgame Header</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6C63FF;
+            --secondary-color: #FFD700;
+            --background-dark: #0A0A0A;
+            --background-light: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0; 
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-dark);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--background-light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .search-bar {
+            flex: 0 1 400px;
+            margin: 0 2rem;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .icon-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .gray-btn, .yellow-btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .gray-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .yellow-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .gray-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .yellow-btn:hover {
+            background-color: #5A52D5;
+            transform: translateY(-2px);
+        }
+
+        nav {
+            background-color: var(--background-light);
+            padding: 0.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav ul li {
+            position: relative;
+            cursor: pointer;
+            padding: 0.8rem 0;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        nav ul li:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-oyunlar:hover .dropdown {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--background-light);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            width: 220px;
+            padding: 0.5rem;
+            z-index: 100;
+        }
+
+        .dropdown li {
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown li:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--primary-color);
+        }
+
+        nav ul li a {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        /* Responsive Tasarım */
+        @media (max-width: 992px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .logo {
+                margin-bottom: 1rem;
+            }
+            
+            .search-bar {
+                width: 100%;
+                margin: 1rem 0;
+                flex: 1;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .buttons {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .search-bar input {
+                padding: 0.7rem 1rem;
+            }
+            
+            .gray-btn, .yellow-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index1.html" style="text-decoration: none; color: inherit;">
+                <span>sʜɪɴx</span>ɢᴀᴍᴇ
+            </a>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Aramak için yazın">
+        </div>
+        <div class="buttons">
+            <button class="icon-btn">🛒</button>
+            <button class="yellow-btn">
+                <a href="kayıtol.html" style="text-decoration: none; color: inherit;">Giriş Yap</a>
+            </button>
+            <button class="yellow-btn">
+                <a href="kayıtol.html" style="text-decoration: none; color: inherit;">Kayıt ol</a>
+            </button>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#" onclick="loadPage('home')">Keşfet</a></li>
+            <li class="nav-oyunlar">Oyunlar
+                <ul class="dropdown">
+                    <li><a href="#" onclick="loadPage('tum-oyunlar')">Tüm Oyunlar</a></li>
+                    <li><a href="#" onclick="loadPage('lol')">LoL Riot Points</a></li>
+                    <li><a href="#" onclick="loadPage('valorant')">Valorant VP</a></li>
+                    <li><a href="#" onclick="loadPage('zula')">Zula Altın</a></li>
+                    <li><a href="#" onclick="loadPage('metin2')">Metin2 Yang</a></li>
+                    <li><a href="#" onclick="loadPage('pubg')">PUBG Mobile UC</a></li>
+                    <li><a href="#" onclick="loadPage('cs2')">CS 2 Skin</a></li>
+                </ul>
+            </li>
+            <li><a href="#" onclick="loadPage('yayin')">Yayıncılar</a></li>
+            <li><a href="ödeme.html" onclick="loadPage('odeme')">Ödeme Seçenekleri</a></li>
+            <li><a href="#" onclick="loadPage('pazar')">Pazar</a></li>
+            <li><a href="ilanekle.html" onclick="loadPage('ilan ekle')">İlan Ekle</a></li>
+        </ul>
+    </nav>
+
+    <script>
+        // Dropdown menü için basit JavaScript
+        document.querySelectorAll('.nav-oyunlar').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.querySelector('.dropdown').style.display = 'block';
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.querySelector('.dropdown').style.display = 'none';
+            });
+        });
+
+        // Mobil dokunmatik destek
+        document.querySelectorAll('.nav-oyunlar').forEach(item => {
+            item.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const dropdown = item.querySelector('.dropdown');
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+
+        // Sayfa yükleme fonksiyonu (örnek)
+        function loadPage(page) {
+            alert(page + " sayfasına yönlendirileceksiniz!");
+            // Gerçek uygulamada burada sayfa içeriği değiştirilir veya yönlendirme yapılır
+        }
+    </script>
+</body>

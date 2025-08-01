@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İlan Ekle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6C63FF;
+            --secondary-color: #FFD700;
+            --background-dark: #0A0A0A;
+            --background-light: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0; 
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-dark);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--background-light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .search-bar {
+            flex: 0 1 400px;
+            margin: 0 2rem;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .icon-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .gray-btn, .yellow-btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .yellow-btn {
+            background-color: var(--secondary-color);
+            color: var(--background-dark);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .yellow-btn:hover {
+            background-color: var(--primary-color);
+            color: var(--text-primary);
+        }
+
+        nav {
+            background-color: var(--background-light);
+            padding: 0.5rem 2rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            position: relative;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-oyunlar:hover .dropdown {
+            display: block;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--background-light);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            width: 250px; /* Genişliği artırdık */
+        }
+
+        .dropdown li {
+            margin-bottom: 0.5rem;
+        }
+
+        .dropdown li a {
+            padding: 0.5rem 1rem;
+            display: block;
+            font-size: 1rem; /* Yazı boyutunu da artırabilirsiniz */
+        }
+
+        .add-listing-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .add-listing-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .add-listing-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            display: inline-block;
+        }
+
+        .add-listing-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--secondary-color);
+        }
+
+        .add-listing-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .add-listing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .listing-category-card {
+            background-color: var(--background-light);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            border: 2px solid transparent;
+            padding: 20px 10px;
+        }
+
+        .listing-category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(108, 99, 255, 0.3);
+            border-color: var(--primary-color);
+        }
+
+        .listing-category-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            padding: 0 15px;
+        }
+
+        .listing-category-description {
+            color: var(--text-secondary);
+            padding: 0 15px 20px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Yeni stiller */
+        .form-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--background-light);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            color: #0A0A0A;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid rgba(183, 0, 255, 0.996);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #0A0A0A;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #0A0A0A
+        }
+
+        .price-section {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .price-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            color: #FFFFFF;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary-color);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--secondary-color);
+            color: var(--background-dark);
+        }
+
+        .note {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: rgb(255, 255, 255);
+            margin: 1.5rem 0;
+        }
+
+        /* Fotoğraf yükleme stilleri */
+        .photo-upload {
+            margin-top: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .upload-area {
+            border: 2px dashed rgb(255, 255, 255);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .upload-area:hover {
+            background-color: rgb(0, 0, 0);
+        }
+
+        .photo-preview {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .photo-preview img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        /* Oyun başlıkları için beyaz renk */
+        .oyun-baslik {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .calculate-btn {
+            padding: 0.7rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem; /* Butonu bir tık alta taşır */
+            display: block; /* Butonu tam ortalamak için */
+            margin-left: auto; /* Ortalamak için */
+            margin-right: auto; /* Ortalamak için */
+        }
+
+        .calculate-btn:hover {
+            background-color: var(--secondary-color);
+            color: var(--background-dark);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header kısmı sabit kalıyor -->
+    <header>
+        <div class="logo">
+            <a href="index1.html" style="text-decoration: none; color: inherit;">
+                <span>sʜɪɴx</span>ɢᴀᴍᴇ
+            </a>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Aramak için yazın">
+        </div>
+        <div class="buttons">
+            <button class="icon-btn">🛒</button>
+            <button class="yellow-btn">
+                <a href="kayıtol.html" style="text-decoration: none; color: inherit;">Giriş Yap</a>
+            </button>
+            <button class="yellow-btn">
+                <a href="kayıtol.html" style="text-decoration: none; color: inherit;">Kayıt Ol</a>
+            </button>
+        </div>
+    </header>
+
+    <!-- Form Alanı -->
+    <div class="form-container">
+        <form>
+            <div class="form-group">
+                <label>Kategori</label>
+                <select id="kategori" onchange="kategoriDegisti()">
+                    <option value="lol">League of Legends</option>
+                    <option value="valorant">Valorant</option>
+                    <option value="cs2">CS2</option>
+                    <option value="zula">Zula</option>
+                </select>
+            </div>
+
+            <div id="oyun-bilgileri">
+                <!-- Oyun bilgileri buraya dinamik olarak eklenecek -->
+            </div>
+
+            <div class="form-group">
+                <label for="ilan_baslik">İlan Başlığı</label>
+                <input type="text" id="ilan_baslik" name="ilan_baslik">
+            </div>
+
+            <div class="form-group">
+                <label for="aciklama">Açıklama</label>
+                <textarea id="aciklama" name="aciklama"></textarea>
+                <p class="note">Bu kategoride 'kan datoylandırma sistemi bulunmaktadır, hanının elektren daha fazla detay vererek daha hızı aztabilirsiniz.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="lig" class="required">Lig (Rana)</label>
+                <input type="text" id="lig" name="lig" required>
+            </div>
+
+            <div class="form-group">
+                <label for="sampiyon_sayisi" class="required">Şampiyon Sayısı</label>
+                <input type="number" id="sampiyon_sayisi" name="sampiyon_sayisi" required>
+            </div>
+
+            <div class="form-group">
+                <label for="calisan_lp" class="required">Çalışan LP</label>
+                <input type="number" id="calisan_lp" name="calisan_lp" required>
+            </div>
+
+            <div class="form-group">
+                <label for="ilk_mali" class="required">İlk Mali</label>
+                <input type="number" id="ilk_mali" name="ilk_mali" required>
+            </div>
+
+            <div class="form-group">
+                <label for="valorant_hesap" class="required">Valorant Hesap</label>
+                <input type="text" id="valorant_hesap" name="valorant_hesap" required>
+            </div>
+
+            <div class="form-group">
+                <label for="talimat_suresi">Talimat Süresi</label>
+                <select id="talimat_suresi" name="talimat_suresi">
+                    <option>3 Saat</option>
+                    <option>6 Saat</option>
+                    <option>12 Saat</option>
+                    <option>24 Saat</option>
+                </select>
+            </div>
+
+            <div class="price-section">
+                <div class="price-box">
+                    <label for="ilan_fiyati">İlan Fiyatı</label>
+                    <input type="number" id="ilan_fiyati" name="ilan_fiyati" placeholder="Fiyat girin">
+                </div>
+                <div class="price-box">
+                    <label for="net_ucret">Alacağınız Net Ücret</label>
+                    <input type="text" id="net_ucret" name="net_ucret" readonly placeholder="Hesaplanacak">
+                </div>
+                <div class="price-box">
+                    <label for="komisyon">Site Komisyonu (%5)</label>
+                    <input type="text" id="komisyon" name="komisyon" readonly placeholder="Hesaplanacak">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="calculate-btn" onclick="hesaplaKomisyon()">Hesapla</button>
+            </div>
+
+            <div class="form-group">
+
+                <div class="checkbox-group">
+                    <div class="checkbox-option">
+                   
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="kazilim_sayisi" class="required">Kazılım Sayısı</label>
+                <input type="number" id="kazilim_sayisi" name="kazilim_sayisi" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mavi_ciz_miktari" class="required">Mavi Çiz Miktarı</label>
+                <input type="number" id="mavi_ciz_miktari" name="mavi_ciz_miktari" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mali_devir" class="required">Mali Devir</label>
+                <input type="number" id="mali_devir" name="mali_devir" required>
+            </div>
+
+            <hr>
+
+            <p class="note">Kesimleri sürükleyin veya tıklayarak teslim seçin.</p>
+            <p class="note">Önerilen ilan görsel boyutu: TBD x TKB px</p>
+            <p class="note">Bu fotoğraf, görsel okuplaştılarak</p>
+
+            <!-- Fotoğraf Yükleme Alanı -->
+            <div class="photo-upload">
+                <h3>İlan Fotoğrafları</h3>
+                <div class="upload-area" id="uploadArea">
+                    <p>Fotoğrafları sürükleyip bırakın veya tıklayarak seçin</p>
+                    <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+                </div>
+                <div class="photo-preview" id="photoPreview"></div>
+                <p class="note">Maksimum 5 fotoğraf yükleyebilirsiniz. (JPEG, PNG formatları)</p>
+            </div>
+
+            <button type="button" class="submit-btn" onclick="ilanGonder()">İlanı Gönder</button>
+        </form>
+    </div>
+
+    <script>
+        // Fotoğraf yükleme işlevselliği
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const photoPreview = document.getElementById('photoPreview');
+
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '#e0e0e0';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.backgroundColor = '#f8f8f8';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '#f8f8f8';
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                handleFiles(fileInput.files);
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                handleFiles(fileInput.files);
+            }
+        });
+
+        function handleFiles(files) {
+            // Önceki önizlemeleri temizle
+            photoPreview.innerHTML = '';
+            
+            // Maksimum 5 dosya kontrolü
+            const filesToUpload = Array.from(files).slice(0, 5);
+            
+            filesToUpload.forEach(file => {
+                if (file.type.match('image.*')) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = (e) => {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        photoPreview.appendChild(img);
+                    }
+                    
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        const oyunBilgileri = {
+            lol: {
+                baslik: "League of Legends Satış Bilgileri",
+                alanlar: `
+                    <div class="form-group">
+                        <label for="lol_rank">Rank</label>
+                        <input type="text" id="lol_rank" name="lol_rank">
+                    </div>
+                    <div class="form-group">
+                        <label for="lol_sampiyon">Şampiyon Sayısı</label>
+                        <input type="number" id="lol_sampiyon" name="lol_sampiyon">
+                    </div>
+                `
+            },
+            valorant: {
+                baslik: "Valorant Satış Bilgileri",
+                alanlar: `
+                    <div class="form-group">
+                        <label for="valorant_rank">Rank</label>
+                        <input type="text" id="valorant_rank" name="valorant_rank">
+                    </div>
+                    <div class="form-group">
+                        <label for="valorant_skin">Skin Sayısı</label>
+                        <input type="number" id="valorant_skin" name="valorant_skin">
+                    </div>
+                `
+            },
+            cs2: {
+                baslik: "CS2 Satış Bilgileri",
+                alanlar: `
+                    <div class="form-group">
+                        <label for="cs2_silahlari">Silah Skinleri</label>
+                        <input type="text" id="cs2_silahlari" name="cs2_silahlari">
+                    </div>
+                    <div class="form-group">
+                        <label for="cs2_hediye">Hediye Eşyalar</label>
+                        <input type="text" id="cs2_hediye" name="cs2_hediye">
+                    </div>
+                `
+            },
+            zula: {
+                baslik: "Zula Satış Bilgileri",
+                alanlar: `
+                    <div class="form-group">
+                        <label for="zula_altin">Altın Miktarı</label>
+                        <input type="number" id="zula_altin" name="zula_altin">
+                    </div>
+                    <div class="form-group">
+                        <label for="zula_kartlar">Kart Sayısı</label>
+                        <input type="number" id="zula_kartlar" name="zula_kartlar">
+                    </div>
+                `
+            }
+        };
+
+        function kategoriDegisti() {
+            const kategori = document.getElementById("kategori").value;
+            const oyunBilgiDiv = document.getElementById("oyun-bilgileri");
+
+            // Formdaki bilgileri sıfırla
+            document.querySelectorAll("form input, form textarea").forEach(input => {
+                input.value = "";
+            });
+
+            // Yeni oyun bilgilerini göster
+            if (oyunBilgileri[kategori]) {
+                oyunBilgiDiv.innerHTML = `
+                    <h3 class="oyun-baslik">${oyunBilgileri[kategori].baslik}</h3>
+                    ${oyunBilgileri[kategori].alanlar}
+                `;
+            } else {
+                oyunBilgiDiv.innerHTML = "";
+            }
+        }
+
+        function hesaplaKomisyon() {
+            const ilanFiyati = parseFloat(document.getElementById("ilan_fiyati").value);
+            const komisyonOrani = 0.05;
+
+            if (!isNaN(ilanFiyati) && ilanFiyati > 0) {
+                const komisyon = ilanFiyati * komisyonOrani;
+                const netUcret = ilanFiyati - komisyon;
+
+                document.getElementById("komisyon").value = komisyon.toFixed(2) + " TL";
+                document.getElementById("net_ucret").value = netUcret.toFixed(2) + " TL";
+            } else {
+                alert("Lütfen geçerli bir ilan fiyatı girin.");
+            }
+        }
+
+        function ilanGonder() {
+            // Formdaki bilgileri al
+            const kategori = document.getElementById("kategori").value;
+            const baslik = document.getElementById("ilan_baslik").value;
+            const aciklama = document.getElementById("aciklama").value;
+            const fiyat = document.getElementById("ilan_fiyati").value;
+            
+            // Fotoğrafı al
+            const photoPreview = document.getElementById("photoPreview");
+            const imgElement = photoPreview.querySelector("img");
+            const fotoUrl = imgElement ? imgElement.src : ""; // Eğer fotoğraf varsa URL'sini al
+
+            // Yeni ilan objesi oluştur
+            const yeniIlan = {
+                id: Date.now(), // Benzersiz bir ID
+                kategori,
+                baslik,
+                aciklama,
+                fiyat,
+                fotoUrl // Fotoğraf URL'sini ekle
+            };
+
+            // Mevcut ilanları al
+            const ilanlar = JSON.parse(localStorage.getItem("ilanlar")) || [];
+            ilanlar.push(yeniIlan);
+
+            // İlanları localStorage'a kaydet
+            localStorage.setItem("ilanlar", JSON.stringify(ilanlar));
+
+            // Kullanıcıyı pazar sayfasına yönlendir
+            window.location.href = "pazar.html";
+        }
+    </script>
+</body>
+</html>

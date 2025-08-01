@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş ve Kayıt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #171b21;
+            color: #d2d9c9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: rise 7s infinite ease-in;
+        }
+        @keyframes rise {
+            0% {
+                transform: translateY(0);
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+        }
+        .container {
+            background-color: #161b22;
+            padding: 90px;
+            border-radius: 9px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+            width: 270px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .form-box {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        h2 {
+            margin-bottom: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #30363d;
+            background-color: #0d1117;
+            color: #c9d1d9;
+        }
+        button {
+            padding: 10px;
+            background-color: #238636;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #2ea043;
+        }
+        a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .logo {
+            font-size: 24px;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+        .highlight {
+            color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div class="background" id="background"></div>
+    <div class="container">
+        <div class="form-box" id="loginBox">
+            <div class="logo"><span class="highlight">Shinx</span>game</div>
+            <h2>Giriş Yap</h2>
+            <form id="login-form">
+                <input type="email" id="login-email" placeholder="E-posta" required>
+                <input type="password" id="login-password" placeholder="Şifre" required>
+                <button type="submit">Giriş Yap</button>
+            </form>
+            <p>Hesabın yok mu? <a href="#" onclick="showRegister()">Kayıt Ol</a></p>
+        </div>
+        
+        <div class="form-box" id="registerBox" style="display: none;">
+            <h2>Kayıt Ol</h2>
+            <form id="signup-form">
+                <input type="email" id="signup-email" placeholder="E-posta" required>
+                <input type="password" id="signup-password" placeholder="Şifre" required>
+                <button type="submit">Kayıt Ol</button>
+            </form>
+            <p>Zaten hesabın var mı? <a href="#" onclick="showLogin()">Giriş Yap</a></p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // YENİ Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5dKyBrMAsFjqKJ5e2njRYjZD0jOOMvS4",
+            authDomain: "satis-160e2.firebaseapp.com",
+            projectId: "satis-160e2",
+            storageBucket: "satis-160e2.firebasestorage.app",
+            messagingSenderId: "1088017913088",
+            appId: "1:1088017913088:web:18d2e44776249517f5cfe5",
+            measurementId: "G-GV1RV3ZMQD"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        function showRegister() {
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('registerBox').style.display = 'block';
+        }
+
+        function showLogin() {
+            document.getElementById('loginBox').style.display = 'block';
+            document.getElementById('registerBox').style.display = 'none';
+        }
+
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    db.collection('logins').add({
+                        userId: userCredential.user.uid,
+                        email: email,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    alert('Başarıyla giriş yapıldı!');
+                })
+                .catch((error) => {
+                    let errorMessage = "Giriş hatası oluştu";
+                    if (error.code === 'auth/invalid-login-credentials') {
+                        errorMessage = "Hatalı email veya şifre. Lütfen bilgilerinizi kontrol edin.";
+                    } else if (error.code === 'auth/user-not-found') {
+                        errorMessage = "Bu email ile kayıtlı kullanıcı bulunamadı.";
+                    } else if (error.code === 'auth/wrong-password') {
+                        errorMessage = "Hatalı şifre. Lütfen tekrar deneyin.";
+                    }
+                    alert(errorMessage);
+                });
+        });
+
+        document.getElementById('signup-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+
+    auth.createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+        const user = userCredential.user;
+        return db.collection("users").doc(user.uid).set({
+            email: user.email,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+            alert('Hesap başarıyla oluşturuldu!');
+            showLogin();
+        });
+    })
+
+        .catch((error) => {
+            console.log("HATA KODU:", error.code);
+            console.log("HATA MESAJI:", error.message);
+            let errorMessage = "Kayıt hatası oluştu";
+            if (error.code === 'auth/email-already-in-use') {
+                errorMessage = "Bu email adresi zaten kullanımda.";
+            } else if (error.code === 'auth/invalid-email') {
+                errorMessage = "Geçersiz email formatı.";
+            } else if (error.code === 'auth/weak-password') {
+                errorMessage = "Şifre en az 6 karakter olmalıdır.";
+            }
+            alert(errorMessage);
+        });
+});
+
+
+        function createBubbles() {
+            const background = document.getElementById("background");
+            for (let i = 0; i < 20; i++) {
+                let bubble = document.createElement("div");
+                bubble.classList.add("bubble");
+                let size = Math.random() * 50 + 10;
+                bubble.style.width = size + "px";
+                bubble.style.height = size + "px";
+                bubble.style.left = Math.random() * 100 + "%";
+                bubble.style.animationDuration = Math.random() * 5 + 5 + "s";
+                background.appendChild(bubble);
+            }
+        }
+        createBubbles();
+    </script>
+</body>
+</html>

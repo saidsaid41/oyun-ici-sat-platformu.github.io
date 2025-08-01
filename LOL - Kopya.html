@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valorant Ürünleri | SHINXGAME</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #000000; /* Kırmızı renk */
+            --secondary-color: #FFD700;
+            --dark-bg: #0f1923;
+            --darker-bg: #0a111a;
+            --card-bg: #ebebeb;
+            --text-light: #000000;
+            --text-gray: #000000;
+            --header-primary: #6C63FF;
+            --header-secondary: #FFD700;
+            --header-dark: #1A1A1A;
+            --header-text: #000000;
+            --header-text-secondary: #B3B3B3;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--darker-bg);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Header Stilleri */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--header-dark);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--header-primary), var(--header-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .header-search {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; /* Arama kutusu ve buton arasındaki boşluk */
+        }
+
+        .header-search input {
+            width: 300px; /* Genişliği artırıldı */
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--header-text);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .header-search input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .search-btn {
+            padding: 0.8rem 1.2rem; /* Arama kutusuyla aynı yükseklik */
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary-color); /* Mavi renk */
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background-color: #0056b3; /* Daha koyu mavi renk */
+            transform: translateY(-2px);
+        }
+
+        /* Header altındaki kısmı sabitle */
+        .site-nav {
+            display: flex;
+            justify-content: flex-start;
+            background-color: var(--header-dark);
+            padding: 0.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative; /* Sabitlik kaldırıldı */
+            width: 100%;
+            z-index: 1000;
+        }
+
+        /* Arama çubuğu ve navigasyon menüsü */
+        .sticky-nav {
+            position: sticky;
+            top: 70px; /* Üst header'ın hemen altında sabitlenir */
+            z-index: 999;
+            background-color: var(--header-dark);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 2rem;
+        }
+
+        /* Öneriler için pencere ve yazı stili */
+        .suggestions {
+            display: none; /* Varsayılan olarak gizli */
+            position: absolute;
+            top: 100%; /* Arama kutusunun hemen altında */
+            left: 0;
+            width: 100%; /* Arama kutusuyla aynı genişlikte */
+            background-color: var(--header-dark);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            list-style: none;
+            margin: 0;
+            padding: 1rem 0;
+            z-index: 1000;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .suggestions li {
+            padding: 0.8rem 1rem;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .suggestions li:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .header-icon {
+            background: none;
+            border: none;
+            color: var(--header-text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .header-icon:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .header-icon::after {
+            content: attr(data-count);
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--header-primary);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-main-btn {
+            background-color: var(--header-primary);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .header-main-btn:hover {
+            background-color: #5A52D5;
+            transform: translateY(-2px);
+        }
+
+        /* Nav Stilleri */
+        .site-nav {
+            display: flex;
+            justify-content: flex-start; /* Butonları sola hizalar */
+            background-color: var(--header-dark);
+            padding: 0.5rem 2rem; /* Sol ve sağda boşluk bırakır */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative; /* Sabitlik kaldırıldı */
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 2rem; /* Butonlar arasında boşluk bırakır */
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            position: relative; /* Dropdown için referans noktası */
+        }
+
+        /* Tüm linklerin rengini beyaz yapar */
+        .nav-menu .nav-item a {
+            color: white !important; /* Tüm linkleri beyaz yapar ve öncelikli hale getirir */
+            text-decoration: none; /* Alt çizgiyi kaldırır */
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        /* Hover sırasında renk değişimi */
+        .nav-menu .nav-item a:hover {
+            color: var(--header-primary); /* Hover sırasında renk değişimi */
+        }
+
+        /* Dropdown menü içindeki linklerin rengini beyaz yapar */
+        .games-dropdown li a {
+            color: white !important; /* Dropdown içindeki linkleri beyaz yapar */
+            text-decoration: none;
+        }
+
+        /* Dropdown menü içindeki linklerin hover sırasında renk değişimi */
+        .games-dropdown li a:hover {
+            color: var(--header-primary); /* Hover sırasında renk değişimi */
+        }
+
+        /* "Oyunlar" butonunun yazısını beyaz yapar */
+        .nav-games > a {
+            color: white !important; /* "Oyunlar" butonunun yazısını beyaz yapar */
+        }
+
+        .nav-games > a:hover {
+            color: var(--header-primary); /* Hover sırasında renk değişimi */
+        }
+
+        .nav-item a {
+            color: white !important; /* Tüm linkleri beyaz yapar ve öncelikli hale getirir */
+            text-decoration: none; /* Alt çizgiyi kaldırır */
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item a:hover {
+            color: var(--header-primary); /* Hover sırasında renk değişimi */
+        }
+
+        .games-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%; /* Dropdown menüyü "Oyunlar" butonunun hemen altına yerleştirir */
+            left: 0;
+            background-color: var(--header-dark);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            width: 220px;
+            padding: 10px 0;
+            z-index: 100;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .games-dropdown li a {
+            color: white !important; /* Dropdown içindeki linkleri beyaz yapar */
+            padding: 10px 20px;
+            display: block;
+        }
+
+        .games-dropdown li:hover a {
+            color: var(--header-primary) !important; /* Hover sırasında renk değişimi */
+        }
+
+        .nav-games:hover .games-dropdown {
+            display: block; /* Hover sırasında dropdown menüyü görünür yapar */
+        }
+
+        /* Ana içerik */
+        .page-content {
+            display: flex;
+            margin-top: 0px;
+            min-height: calc(100vh - 110px);
+            background-color: #000000;
+        }
+        
+        /* Valorant image section - FIXED */
+        .valorant-hero {
+            position: fixed;
+            left: 20px;
+            top: 130px;
+            width: 350px;
+            height: calc(100vh - 150px);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 20px  #2173c6;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .valorant-hero:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px  #135aa1;
+        }
+        
+        .valorant-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .valorant-hero:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Products container - SCROLLABLE */
+        .products-wrapper {
+            margin-left: 390px;
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .content-title {
+            color: var(--primary-color);
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .content-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 70, 85, 0.1), transparent);
+            z-index: 0;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 115, 126, 0.3);
+        }
+        
+        .product-title {
+            color: var(--primary-color) !important; /* Artık kırmızı olacak */
+            font-size: 28px;
+            margin-top: 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .product-subtitle {
+            color: var(--text-light);
+            font-size: 22px;
+            margin-top: 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .product-description {
+            margin: 10px 0;
+            color: var(--text-gray);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .price-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .product-price {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .product-rating {
+            color: var(--text-gray);
+            font-style: italic;
+        }
+        
+        .cart-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .cart-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .cart-btn:hover {
+            background-color:  #0f1923;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px  #0f1923;
+        }
+        
+        .cart-btn:hover::before {
+            left: 100%;
+        }
+        
+        .vp-tag {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 5px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .vp-tag::before {
+            content: '•';
+            color: var(--primary-color);
+            margin-right: 5px;
+            font-size: 16px;
+        }
+        
+        /* Featured badge */
+        .featured-label {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            transform: rotate(15deg);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Aydınlık mod için ek stiller */
+        body.light-mode {
+            --primary-color: #2173c6;
+            --secondary-color: #FFD700;
+            --dark-bg: #f5f5f5;
+            --darker-bg: #ffffff;
+            --card-bg: #ffffff;
+            --text-light: #222;
+            --text-gray: #444;
+            --header-primary: #2173c6;
+            --header-secondary: #FFD700;
+            --header-dark: #eaeaea;
+            --header-text: #222;
+            --header-text-secondary: #555;
+            background-color: var(--darker-bg);
+            color: var(--text-light);
+        }
+        
+        body.light-mode .product-card {
+            background-color: var(--card-bg);
+            color: var(--text-light);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        body.light-mode .product-title,
+        body.light-mode .product-subtitle,
+        body.light-mode .product-description,
+        body.light-mode .product-price,
+        body.light-mode .product-rating {
+            color: var(--text-light);
+        }
+        
+        body.light-mode .vp-tag {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+        
+        body.light-mode .featured-label {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+        
+        body.light-mode .cart-btn {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .valorant-hero {
+                width: 300px;
+            }
+            .products-wrapper {
+                margin-left: 340px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .valorant-hero {
+                display: none;
+            }
+            .products-wrapper {
+                margin-left: 20px;
+                padding: 15px;
+            }
+            
+            .header-search {
+                flex: 1;
+                margin: 0 1rem;
+            }
+            
+            .nav-menu {
+                gap: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .site-header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .header-logo {
+                margin-bottom: 1rem;
+            }
+            
+            .header-search {
+                margin: 1rem 0;
+                width: 100%;
+            }
+            
+            .site-nav {
+                top: 140px;
+                padding: 0.5rem 1rem;
+            }
+            
+            .page-content {
+                margin-top: 180px;
+            }
+            
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Animation for page load */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .product-card {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+        
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+        .product-card:nth-child(5) { animation-delay: 0.5s; }
+        .product-card:nth-child(6) { animation-delay: 0.6s; }
+
+        /* Kartın etrafında mavi ışık efekti */
+        .highlight {
+            box-shadow: 0 0 20px 5px rgba(0, 123, 255, 0.8); /* Mavi ışık efekti */
+            transition: box-shadow 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-logo">
+            <a href="index1.html" style="text-decoration: none; color: inherit;">
+                <span>sʜɪɴx</span>ɢᴀᴍᴇ
+            </a>
+        </div>
+        <div class="header-search">
+            <input type="text" id="search-input" placeholder="Ürün ismini yazın...">
+            <ul id="search-suggestions" class="suggestions"></ul>
+            <button id="search-button" class="search-btn">Ara</button>
+        </div>
+        <div class="header-buttons">
+            <button class="header-icon" data-count="3">🛒</button>
+            <button class="header-main-btn">
+                <a href="kayıtol.html" style="text-decoration: none; color: inherit;">Giriş Yap</a>
+            </button>
+            <button class="header-main-btn">
+                <a href="kayıtol.html" style="text-decoration: none; color: inherit;">Kayıt ol</a>
+            </button>
+            <button id="theme-toggle" class="header-main-btn" style="margin-top:8px;">🌙 Karanlık/Aydınlık</button>
+        </div>
+    </header>
+    
+    <nav class="site-nav">
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index1.html" onclick="loadPage('home')">Keşfet</a></li>
+            <li class="nav-item nav-games">Oyunlar
+                <ul class="games-dropdown">
+                    <li><a href="Tüm oyunlar.html" onclick="loadPage('tum-oyunlar')">Tüm Oyunlar</a></li>
+                    <li><a href="LOL.html" onclick="loadPage('lol')">LoL Riot Points</a></li>
+                    <li><a href="Valorant.html" onclick="loadPage('valorant')">Valorant VP</a></li>
+                    <li><a href="Zula.html" onclick="loadPage('zula')">Zula Altın</a></li>
+                    <li><a href="Metin2.html" onclick="loadPage('metin2')">Metin2 Yang</a></li>
+                    <li><a href="Pubg.html" onclick="loadPage('pubg')">PUBG Mobile UC</a></li>
+                    <li><a href="CS2.html" onclick="loadPage('cs2')">CS 2 Skin</a></li>
+                </ul>
+            </li>
+            <li class="nav-item"><a href="yayıncılar.html" onclick="loadPage('yayin')">Yayıncılar</a></li>
+            <li class="nav-item"><a href="bankalar.html" onclick="loadPage('odeme')">Ödeme Seçenekleri</a></li>
+            <li class="nav-item"><a href="pazar.html" onclick="loadPage('pazar')">Pazar</a></li>
+            <li class="nav-item"><a href="ilanekle.html" onclick="loadPage('ilan ekle')">İlan Ekle</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-content">
+        <!-- Valorant image section - FIXED -->
+        <div class="valorant-hero">
+            <img src="LOL.jpg" alt="Valorant Battle Pass">
+            <div class="featured-label">ÖNE ÇIKAN</div>
+        </div>
+        
+        <!-- Products container - SCROLLABLE -->
+        <div class="products-wrapper">
+            <h2 class="content-title">LoL Ürünleri</h2>
+            
+            <!-- 400 RP -->
+            <div class="product-card">
+                <h1 class="product-title">League of Legends 400 RP</h1>
+                <p class="product-description">Hesabınıza anında 400 Riot Points yüklemesi yapın, hızlı teslimat avantajı!</p>
+                <div class="price-container">
+                    <span class="product-price">45 TL</span>
+                    <span class="product-rating">🔥 72 kişi satın aldı</span>
+                </div>
+                <button class="cart-btn">Sepete Ekle</button>
+            </div>
+            
+            <!-- 840 RP -->
+            <div class="product-card">
+                <h2 class="product-subtitle">League of Legends 840 <span class="vp-tag">RP</span></h2>
+                <p class="product-description">En çok tercih edilen RP paketi - Ekstra %5 bonus!</p>
+                <div class="price-container">
+                    <span class="product-price">90 TL</span>
+                    <span class="product-rating">⭐ 4.9 (110 değerlendirme)</span>
+                </div>
+                <button class="cart-btn">Sepete Ekle</button>
+            </div>
+            
+            <!-- 1780 RP -->
+            <div class="product-card">
+                <h2 class="product-subtitle">League of Legends 1780 <span class="vp-tag">RP</span></h2>
+                <p class="product-description">Büyük avantajlı RP paketi - Hemen teslim!</p>
+                <div class="price-container">
+                    <span class="product-price">180 TL</span>
+                    <span class="product-rating">💎 VIP müşteri indirimi</span>
+                </div>
+                <button class="cart-btn">Sepete Ekle</button>
+            </div>
+            
+            <!-- Kostüm Paketi -->
+            <div class="product-card">
+                <h2 class="product-subtitle">Kostüm Paketi</h2>
+                <p class="product-description">En popüler şampiyonlar için 3 rastgele kostüm!</p>
+                <div class="price-container">
+                    <span class="product-price">120 TL</span>
+                    <span class="product-rating">✨ Sınırlı stok</span>
+                </div>
+                <button class="cart-btn">Sepete Ekle</button>
+            </div>
+            
+            <!-- Şampiyon Paketi -->
+            <div class="product-card">
+                <h2 class="product-subtitle">Şampiyon Paketi</h2>
+                <p class="product-description">5 favori şampiyonun kilidini hemen aç!</p>
+                <div class="price-container">
+                    <span class="product-price">150 TL</span>
+                    <span class="product-rating">🔓 Tüm şampiyonlara erişim</span>
+                </div>
+                <button class="cart-btn">Sepete Ekle</button>
+            </div>
+            
+            <!-- Hextech Sandık Paketi -->
+            <div class="product-card">
+                <h2 class="product-subtitle">Hextech Sandık Paketi</h2>
+                <p class="product-description">10 adet Hextech sandığı ve anahtarı</p>
+                <div class="price-container">
+                    <span class="product-price">95 TL</span>
+                    <span class="product-rating">🎁 10 sandık + 10 anahtar</span>
+                </div>
+                <button class="cart-btn">Sepete Ekle</button>
+            </div>
+            
+            <!-- Başlangıç Paketi -->
+            <div class="product-card">
+                <h2 class="product-subtitle">Başlangıç Paketi</h2>
+                <p class="product-description">Yeni başlayanlar için özel: 1 kostüm + 1 şampiyon + 400 RP</p>
+                <div class="price-container">
+                    <span class="product-price">80 TL</span>
+                    <span class="product-rating">🎉 Hemen teslim</span>
+                </div>
+                <button class="cart-btn">Sepete Ekle</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    document.body.classList.toggle('light-mode');
+                    if(document.body.classList.contains('light-mode')) {
+                        themeToggle.innerHTML = "🌞 Karanlık/Aydınlık";
+                    } else {
+                        themeToggle.innerHTML = "🌙 Karanlık/Aydınlık";
+                    }
+                });
+            }
+        
+        // Sepet sayacı için basit bir script
+        document.querySelectorAll('.cart-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const cart = document.querySelector('.header-icon');
+                let count = parseInt(cart.getAttribute('data-count')) || 0;
+                count++;
+                cart.setAttribute('data-count', count);
+                
+                // Animasyon efekti
+                this.style.backgroundColor = '#4CAF50';
+                setTimeout(() => {
+                    this.style.backgroundColor = '#ff4655';
+                }, 300);
+            });
+        });
+        
+        // Dropdown menü için touch event desteği
+        document.querySelector('.nav-games').addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            this.querySelector('.games-dropdown').style.display = 
+                this.querySelector('.games-dropdown').style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Dropdown menü için mouse eventleri
+        document.querySelectorAll('.nav-games').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.querySelector('.games-dropdown').style.display = 'block';
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.querySelector('.games-dropdown').style.display = 'none';
+            });
+        });
+
+        function loadPage(page) {
+            console.log(page + " sayfası yükleniyor");
+            // Gerçek uygulamada burada sayfa içeriği değiştirilir veya yönlendirme yapılır
+        }
+
+
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const suggestions = document.getElementById('search-suggestions');
+        const productCards = document.querySelectorAll('.product-card');
+
+        // Arama kutusuna yazarken öneriler göster
+        searchInput.addEventListener('input', function () {
+            const searchValue = this.value.toLowerCase().trim();
+            suggestions.innerHTML = ''; // Önerileri temizle
+
+            if (searchValue === '') {
+                suggestions.style.display = 'none'; // Öneriler penceresini gizle
+                return;
+            }
+
+            let hasSuggestions = false;
+
+            productCards.forEach(card => {
+                const productSubtitle = card.querySelector('.product-subtitle')?.textContent.toLowerCase();
+
+                if (productSubtitle && productSubtitle.includes(searchValue)) {
+                    const suggestionItem = document.createElement('li');
+                    suggestionItem.textContent = card.querySelector('.product-subtitle').textContent;
+                    suggestionItem.addEventListener('click', function () {
+                        // Ekranı karta kaydır ve ışık efekti ekle
+                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        card.classList.add('highlight');
+                        setTimeout(() => {
+                            card.classList.remove('highlight');
+                        }, 2000);
+
+                        // Önerileri temizle ve gizle
+                        suggestions.innerHTML = '';
+                        suggestions.style.display = 'none';
+                    });
+                    suggestions.appendChild(suggestionItem);
+                    hasSuggestions = true;
+                }
+            });
+
+            if (hasSuggestions) {
+                suggestions.style.display = 'block'; // Öneriler penceresini göster
+            } else {
+                suggestions.style.display = 'none'; // Öneriler yoksa gizle
+            }
+        });
+
+        // Arama kutusunun dışına tıklanınca öneriler penceresini kapat
+        document.addEventListener('click', function (event) {
+            if (!searchInput.contains(event.target) && !suggestions.contains(event.target)) {
+                suggestions.style.display = 'none'; // Öneriler penceresini gizle
+            }
+        });
+    });
+    </script>
+    <script>
+        let cart = []; // Sepet için bir dizi
+
+    // Sepete ürün ekleme
+    document.querySelectorAll('.cart-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const productCard = this.closest('.product-card');
+            const productName = productCard.querySelector('.product-title, .product-subtitle').textContent.trim();
+            const productPrice = parseFloat(productCard.querySelector('.product-price').textContent.replace('TL', '').trim());
+
+            // Sepete ekle
+            const existingProduct = cart.find(item => item.name === productName);
+            if (existingProduct) {
+                existingProduct.qty += 1; // Eğer ürün zaten varsa miktarı artır
+            } else {
+                cart.push({ name: productName, price: productPrice, qty: 1 }); // Yeni ürün ekle
+            }
+
+            // Sepet simgesindeki sayıyı güncelle
+            const cartIcon = document.querySelector('.header-icon');
+            cartIcon.setAttribute('data-count', cart.reduce((sum, item) => sum + item.qty, 0));
+
+            // Animasyon efekti
+            this.style.backgroundColor = '#4CAF50';
+            setTimeout(() => {
+                this.style.backgroundColor = '';
+            }, 300);
+        });
+    });
+
+    // Sepet simgesine tıklayınca sepeti göster
+    document.querySelector('.header-icon').addEventListener('click', function () {
+        const cartDropdown = document.createElement('div');
+        cartDropdown.className = 'cart-dropdown';
+        cartDropdown.style.position = 'absolute';
+        cartDropdown.style.top = '50px';
+        cartDropdown.style.right = '20px';
+        cartDropdown.style.backgroundColor = '#fff';
+        cartDropdown.style.color = '#000';
+        cartDropdown.style.padding = '1rem';
+        cartDropdown.style.borderRadius = '8px';
+        cartDropdown.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)';
+        cartDropdown.style.zIndex = '1000';
+
+        // Sepet içeriğini oluştur
+        if (cart.length === 0) {
+            cartDropdown.innerHTML = '<p>Sepetiniz boş.</p>';
+        } else {
+            let cartHTML = '<ul style="list-style: none; padding: 0;">';
+            cart.forEach(item => {
+                cartHTML += `
+                    <li style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>${item.name} x${item.qty}</span>
+                        <span>${(item.price * item.qty).toFixed(2)} TL</span>
+                    </li>
+                `;
+            });
+            cartHTML += '</ul>';
+            cartHTML += `
+                <div style="margin-top: 1rem; text-align: center;">
+                    <button id="payButton" style="padding: 0.5rem 1rem; background-color: #6C63FF; color: #fff; border: none; border-radius: 8px; cursor: pointer;">Öde</button>
+                </div>
+            `;
+            cartDropdown.innerHTML = cartHTML;
+        }
+
+        // Daha önceki dropdown'ı kaldır
+        const existingDropdown = document.querySelector('.cart-dropdown');
+        if (existingDropdown) existingDropdown.remove();
+
+        // Yeni dropdown'ı ekle
+        document.body.appendChild(cartDropdown);
+
+        // Öde butonuna tıklama
+        document.getElementById('payButton').addEventListener('click', function () {
+            if (cart.length === 0) {
+                alert('Sepetiniz boş. Lütfen ürün ekleyin.');
+            } else {
+                const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+                // Satın alınan ürünleri ve toplam tutarı `localStorage`'a kaydet
+                localStorage.setItem('siparisOzeti', JSON.stringify({
+                    urunler: cart,
+                    toplamTutar: total
+                }));
+
+                // Kullanıcıyı sipariş özetine yönlendir
+                window.location.href = 'bankalar.html';
+            }
+        });
+    });
+    </script>
+</body>
+</html>

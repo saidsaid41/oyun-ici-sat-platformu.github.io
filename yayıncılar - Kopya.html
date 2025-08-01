@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yayıncılar | SHINXGAME</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6C63FF;
+            --secondary-color: #FFD700;
+            --background-dark: #0A0A0A;
+            --background-light: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--background-dark); color: var(--text-primary); }
+        .main-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 2rem; background-color: var(--background-light);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3); position: sticky; top: 0; z-index: 1000;
+        }
+        .header-logo {
+            font-size: 1.5rem; font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        .header-search { flex: 0 1 400px; margin: 0 2rem; }
+        .header-search input {
+            width: 100%; padding: 0.8rem 1.2rem; border: none; border-radius: 8px;
+            background-color: rgba(255,255,255,0.1); color: var(--text-primary); font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .header-search input:focus {
+            outline: none; background-color: rgba(255,255,255,0.15);
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+        .header-buttons { display: flex; gap: 1rem; align-items: center; }
+        .header-icon-btn {
+            background: none; border: none; color: var(--text-primary); font-size: 1.2rem;
+            cursor: pointer; padding: 0.5rem; border-radius: 50%; transition: all 0.3s ease;
+        }
+        .header-icon-btn:hover { background-color: rgba(255,255,255,0.1); }
+        .header-yellow-btn {
+            padding: 0.7rem 1.5rem; border: none; border-radius: 8px; font-weight: 500;
+            cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem;
+            background-color: var(--primary-color); color: white;
+        }
+        .header-yellow-btn:hover { background-color: #5A52D5; transform: translateY(-2px); }
+        .main-nav {
+            background-color: var(--background-light); padding: 0.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .nav-list {
+            list-style: none; display: flex; gap: 2rem; align-items: center;
+            max-width: 1200px; margin: 0 auto;
+        }
+        .nav-item { position: relative; cursor: pointer; padding: 0.8rem 0; font-weight: 500; color: var(--text-secondary); transition: all 0.3s ease; }
+        .nav-item:hover { color: var(--text-primary); }
+        .nav-games:hover .nav-dropdown { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .nav-dropdown {
+            display: none; position: absolute; top: 100%; left: 0;
+            background-color: var(--background-light); border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3); width: 220px; padding: 0.5rem; z-index: 100;
+        }
+        .nav-dropdown li { padding: 0.8rem 1rem; border-radius: 6px; transition: all 0.2s ease; }
+        .nav-dropdown li:hover { background-color: rgba(255,255,255,0.1); color: var(--primary-color); }
+        .nav-link { color: inherit; text-decoration: none; transition: all 0.3s ease; }
+        .streamer-container { max-width: 1400px; margin: 2rem auto; padding: 0 2rem; }
+        .section-title { font-size: 2rem; margin-bottom: 2rem; color: var(--primary-color); position: relative; display: inline-block; }
+        .section-title::after { content: ''; position: absolute; bottom: -10px; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--primary-color), transparent); }
+        .streamer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+        .streamer-card {
+            background: var(--background-light); border-radius: 12px; overflow: hidden; text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2); transition: all 0.3s ease; cursor: pointer; position: relative;
+        }
+        .streamer-card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(108,99,255,0.3); }
+        .streamer-banner { height: 180px; position: relative; overflow: hidden; }
+        .streamer-banner img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+        .streamer-card:hover .streamer-banner img { transform: scale(1.05); }
+        .streamer-avatar {
+            width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--primary-color);
+            position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%);
+            background: #333; overflow: hidden; z-index: 2;
+        }
+        .streamer-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .streamer-info { padding: 50px 20px 20px; position: relative; z-index: 1; }
+        .streamer-name { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-primary); }
+        .streamer-game { font-size: 0.9rem; color: var(--secondary-color); margin-bottom: 1rem; }
+        .streamer-stats { display: flex; justify-content: space-between; color: var(--text-secondary); font-size: 0.8rem; margin-top: 10px; }
+        .streamer-live-badge {
+            background-color: #FF0000; color: white; padding: 0.2rem 0.5rem; border-radius: 4px;
+            font-size: 0.7rem; font-weight: bold; display: inline-block; margin-top: 0.5rem; animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        @media (max-width: 992px) {
+            .main-header { flex-direction: column; padding: 1rem; }
+            .header-logo { margin-bottom: 1rem; }
+            .header-search { width: 100%; margin: 1rem 0; flex: 1; }
+            .nav-list { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+        }
+        @media (max-width: 768px) {
+            .streamer-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+            .section-title { font-size: 1.8rem; }
+        }
+        @media (max-width: 576px) {
+            .header-buttons { width: 100%; justify-content: space-between; }
+            .header-search input { padding: 0.7rem 1rem; }
+            .header-yellow-btn { padding: 0.6rem 1rem; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-logo">
+            <a href="index1.html" style="text-decoration: none; color: inherit;">
+                <span>sʜɪɴx</span>ɢᴀᴍᴇ
+            </a>
+        </div>
+        <div class="header-search">
+            <input type="text" placeholder="Aramak için yazın">
+        </div>
+        <div class="header-buttons">
+            <button class="header-icon-btn">🛒</button>
+            <button class="header-yellow-btn">
+                <a href="kayıtol.html" style="text-decoration: none; color: inherit;">Giriş Yap</a>
+            </button>
+            <button class="header-yellow-btn">
+                <a href="kayıtol.html" style="text-decoration: none; color: inherit;">Kayıt ol</a>
+            </button>
+        </div>
+    </header>
+    <nav class="main-nav">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="index1.html" class="nav-link">Keşfet</a></li>
+            <li class="nav-item nav-games">Oyunlar
+                <ul class="nav-dropdown">
+                    <li><a href="Tüm oyunlar.html" class="nav-link">Tüm Oyunlar</a></li>
+                    <li><a href="LOL.html" class="nav-link">LoL Riot Points</a></li>
+                    <li><a href="Valorant.html" class="nav-link">Valorant VP</a></li>
+                    <li><a href="Zula.html" class="nav-link">Zula Altın</a></li>
+                    <li><a href="Metin2.html" class="nav-link">Metin2 Yang</a></li>
+                    <li><a href="Pubg.html" class="nav-link">PUBG Mobile UC</a></li>
+                    <li><a href="CS2.html" class="nav-link">CS 2 Skin</a></li>
+                </ul>
+            </li>
+            <li class="nav-item"><a href="yayıncılar.html" class="nav-link">Yayıncılar</a></li>
+            <li class="nav-item"><a href="bankalar.html" class="nav-link">Ödeme Seçenekleri</a></li>
+            <li class="nav-item"><a href="pazar.html" class="nav-link">Pazar</a></li>
+            <li class="nav-item"><a href="ilanekle.html" class="nav-link">İlan Ekle</a></li>
+        </ul>
+    </nav>
+
+    <div class="streamer-container">
+        <h1 class="section-title">Popüler Yayıncılar</h1>
+        <div class="streamer-grid">
+            <!-- Streamer 1 -->
+            <div class="streamer-card">
+                <div class="streamer-banner">
+                    <img src="images/ejder.jpg" alt="Streamer Banner">
+                </div>
+                <div class="streamer-avatar">
+                    <img src="images/ejder.jpg" alt="Streamer Avatar">
+                </div>
+                <div class="streamer-info">
+                    <h3 class="streamer-name">ShinxxTV</h3>
+                    <p class="streamer-game">Valorant</p>
+                    <div class="streamer-live-badge">CANLI</div>
+                    <div class="streamer-stats">
+                        <span>👁 12.4K</span>
+                        <span>❤ 3.2K</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Streamer 2 -->
+            <div class="streamer-card">
+                <div class="streamer-banner">
+                    <img src="images/elraen.jpg" alt="Streamer Banner">
+                </div>
+                <div class="streamer-avatar">
+                    <img src="images/elraen.jpg" alt="Streamer Avatar">
+                </div>
+                <div class="streamer-info">
+                    <h3 class="streamer-name">Elraenn</h3>
+                    <p class="streamer-game">League of Legends</p>
+                    <div class="streamer-live-badge">CANLI</div>
+                    <div class="streamer-stats">
+                        <span>👁 8.7K</span>
+                        <span>❤ 2.1K</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Streamer 3 -->
+            <div class="streamer-card">
+                <div class="streamer-banner">
+                    <img src="images/closer.jpg" alt="Streamer Banner">
+                </div>
+                <div class="streamer-avatar">
+                    <img src="images/closer.jpg" alt="Streamer Avatar">
+                </div>
+                <div class="streamer-info">
+                    <h3 class="streamer-name">Closer</h3>
+                    <p class="streamer-game">CS2</p>
+                    <div class="streamer-stats">
+                        <span>👁 5.3K</span>
+                        <span>❤ 1.4K</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Streamer 4 -->
+            <div class="streamer-card">
+                <div class="streamer-banner">
+                    <img src="images/rraenee.jpg" alt="Streamer Banner">
+                </div>
+                <div class="streamer-avatar">
+                    <img src="images/rraenee.jpg" alt="Streamer Avatar">
+                </div>
+                <div class="streamer-info">
+                    <h3 class="streamer-name">RRaenee</h3>
+                    <p class="streamer-game">Fortnite</p>
+                    <div class="streamer-live-badge">CANLI</div>
+                    <div class="streamer-stats">
+                        <span>👁 7.1K</span>
+                        <span>❤ 1.9K</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Streamer 5 -->
+            <div class="streamer-card">
+                <div class="streamer-banner">
+                    <img src="images/tolunay.jpg" alt="Streamer Banner">
+                </div>
+                <div class="streamer-avatar">
+                    <img src="images/tolunay.jpg" alt="Streamer Avatar">
+                </div>
+                <div class="streamer-info">
+                    <h3 class="streamer-name">Tolunay Ören</h3>
+                    <p class="streamer-game">Minecraft</p>
+                    <div class="streamer-stats">
+                        <span>👁 3.8K</span>
+                        <span>❤ 0.9K</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Streamer 6 -->
+            <div class="streamer-card">
+                <div class="streamer-banner">
+                    <img src="images/barış.jpg" alt="Streamer Banner">
+                </div>
+                <div class="streamer-avatar">
+                    <img src="images/barış.jpg" alt="Streamer Avatar">
+                </div>
+                <div class="streamer-info">
+                    <h3 class="streamer-name">BarişG</h3>
+                    <p class="streamer-game">Apex Legends</p>
+                    <div class="streamer-live-badge">CANLI</div>
+                    <div class="streamer-stats">
+                        <span>👁 9.6K</span>
+                        <span>❤ 2.8K</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Streamer 7 -->
+            <div class="streamer-card">
+                <div class="streamer-banner">
+                    <img src="images/ilker.jpg" alt="Streamer Banner">
+                </div>
+                <div class="streamer-avatar">
+                    <img src="images/ilker.jpg" alt="Streamer Avatar">
+                </div>
+                <div class="streamer-info">
+                    <h3 class="streamer-name">İlker</h3>
+                    <p class="streamer-game">
+                        Call of Duty
+                    </p>
+                    <div class="streamer-stats">
+                        <span>👁 6.2K</span>
+                        <span>❤ 1.7K</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Streamer 8 -->
+            <div class="streamer-card">
+                <div class="streamer-banner">
+                    <img src="images/raikou.jpg" alt="Streamer Banner">
+                </div>
+                <div class="streamer-avatar">
+                    <img src="images/raikou.jpg" alt="Streamer Avatar">
+                </div>
+                <div class="streamer-info">
+                    <h3 class="streamer-name">Raikoucs</h3>
+                    <p class="streamer-game">Dota 2</p>
+                    <div class="streamer-live-badge">CANLI</div>
+                    <div class="streamer-stats">
+                        <span>👁 4.5K</span>
+                        <span>❤ 1.2K</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Dropdown menü
+        document.querySelectorAll('.nav-games').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.querySelector('.nav-dropdown').style.display = 'block';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.querySelector('.nav-dropdown').style.display = 'none';
+            });
+        });
+        document.querySelectorAll('.nav-games').forEach(item => {
+            item.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const dropdown = item.querySelector('.nav-dropdown');
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+        // Streamer kartı tıklama
+        document.querySelectorAll('.streamer-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const streamerName = card.querySelector('.streamer-name').textContent;
+                alert(streamerName + " yayıncısının detay sayfasına yönlendiriliyorsunuz!");
+            });
+        });
+    </script>
+</body>
+</html>

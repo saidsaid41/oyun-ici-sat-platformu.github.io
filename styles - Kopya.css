@@ -1,0 +1,50 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #0f0f0f;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.products-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Kartlar otomatik yerleşir */
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.product-card {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Kare şekli sağlar */
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.product-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Resmi karta sığdırır */
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.1); /* Hover sırasında resmi büyütür */
+}
